@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hotel Booking Management System 🏨
 
-## Getting Started
+A hotel operations dashboard for managing rooms, guests, bookings, payments, and reports — built with Next.js and Microsoft SQL Server.
 
-First, run the development server:
+## The problem
+
+Front-desk staff need one place to see room availability, check guests in and out, take payments, and pull revenue reports. This app puts all of that behind a single dashboard backed by a normalized SQL Server database, instead of separate spreadsheets for rooms, guests, and payments.
+
+## Features
+
+- **Dashboard** — at-a-glance totals for rooms, guests, bookings, and paid revenue
+- **Rooms** — manage room inventory and availability
+- **Guests** — guest records and history
+- **Bookings** — create bookings and run check-in / check-out actions
+- **Payments** — record and track payments against bookings
+- **Reports** — revenue and occupancy reporting
+
+## Tech stack
+
+- **Framework:** Next.js (App Router), React
+- **Database:** Microsoft SQL Server (`mssql` / `msnodesqlv8`)
+- **Styling:** Tailwind CSS
+- **Icons:** Lucide
+
+## Architecture
+
+The Next.js App Router serves both the UI (`src/app/*/page.js`) and the REST API (`src/app/api/*/route.js`). API routes query SQL Server through a pooled connection in `src/lib/db.js`.
+
+```
+src/
+├── app/
+│   ├── api/          # bookings, guests, payments, rooms, reports, dashboard
+│   ├── bookings/     # UI pages
+│   ├── guests/
+│   ├── payments/
+│   ├── reports/
+│   └── rooms/
+├── components/       # Navbar
+└── lib/db.js         # SQL Server connection pool
+```
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 18+
+- A running Microsoft SQL Server instance with the hotel database schema
+
+### Setup
+
+```bash
+git clone https://github.com/BaseerAhmedTahir/Hotel-Management.git
+cd Hotel-Management
+npm install
+```
+
+Configure the database connection via environment variables (create `.env.local`):
+
+```env
+DB_SERVER=localhost
+DB_NAME=HotelBookingManagementSystem
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
+```
+
+> **Note:** connection settings currently live in `src/lib/db.js`. Move them to the environment variables above before deploying — never commit database credentials.
+
+Then run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000).
